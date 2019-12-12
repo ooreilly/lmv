@@ -36,10 +36,10 @@ class hCSR {
 
 template<typename Tv, typename Ti>
 read::operator hCSR<Tv, Ti>() {
-                FILE* fh = fopen(filename, "rb");
+                FILE* fh = fopen(filename.c_str(), "rb");
 
                 if (!fh)
-                  throw std::runtime_error("Could not open " + std::string(filename)); 
+                  throw std::runtime_error("Could not open " + filename); 
                 
                 size_t m = 0; size_t n = 0; size_t nnz = 0;
                 fread(&m, 1, sizeof(size_t), fh);

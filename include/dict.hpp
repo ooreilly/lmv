@@ -22,6 +22,8 @@ class parse {
         operator int() { return std::stoi(val); } 
         operator float() { return std::stof(val); } 
         operator double() { return std::stod(val); } 
+        operator std::string() { return val; }
+        operator const char*() { return val.c_str(); }
         template <typename T>
         operator hArray<T>() { 
 
@@ -46,14 +48,18 @@ public:
 
 };
 
-int write(const char *filename, Dict& d, int verbose = 0)
+int write(const std::string& filename, Dict& d, int verbose = 0)
 {
-        FILE *fh = fopen(filename, "w");
+        FILE *fh = fopen(filename.c_str(), "w");
+
+        if (!fh) return LMV_WRITE_FAILURE; 
 
         for (auto it = d.map.begin(); it != d.map.end(); ++it) {
                 fprintf(fh, "%s=%s\n", it->first.c_str(), it->second.c_str());
         }
         fclose(fh);
+
+        return LMV_STATUS_SUCCESS;
 }
 
 read::operator Dict() {
@@ -72,10 +78,19 @@ read::operator Dict() {
                         map[key] = value;
                 }
         } else {
-                fprintf(stderr, "Failed to open: %s.\n", filename);
+                fprintf(stderr, "Failed to open: %s.\n", filename.c_str());
         }
         Dict d(map);
         return d;
+}
+
+void dump_(Dict& x, const char *name, FILE *stream=NULL) {
+        if (!stream) stream = stdout;
+        fprintf(stream, "%s = {", name);
+        for (auto it = x.map.begin(); it != x.map.end(); ++it) {
+                fprintf(stream, " %s = %s", it->first.c_str(), it->second.c_str());
+        }
+        fprintf(stream, "}\n");
 }
 
 #endif

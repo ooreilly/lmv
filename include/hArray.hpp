@@ -2,6 +2,8 @@
 #define HARRAY_HPP
 
 #include <hlmv.hpp>
+#include <fstream>
+#include <iostream>
 
 template <typename T>
 class hArray
@@ -32,6 +34,8 @@ void write(const char *filename, hArray<T>& arr, bool verbose = false) {
     throw std::runtime_error("Could not open " + std::string(filename)); 
   
   assert(arr.size > 0);
+  size_t type_size = sizeof(T);
+  fwrite(&type_size, 1, sizeof(size_t), fh);
   fwrite(&arr.size, 1, sizeof(size_t), fh);
   fwrite(arr.x, 1, arr.size * sizeof(T), fh);
   fclose(fh);
@@ -46,12 +50,14 @@ void write(const char *filename, hArray<T>& arr, bool verbose = false) {
 template<typename T>
 read::operator hArray<T>() {
 
-  FILE* fh = fopen(filename, "rb");
+  FILE* fh = fopen(filename.c_str(), "rb");
 
   if (!fh)
     throw std::runtime_error("Could not open " + std::string(filename)); 
 
-  size_t size = 0;
+  size_t type_size, size;
+  fread(&type_size, 1, sizeof(size_t), fh);
+  assert(type_size == sizeof(T));
   fread(&size, 1, sizeof(size_t), fh);
   assert(size > 0);
   hArray<T> arr(size);

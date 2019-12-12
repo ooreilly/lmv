@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <test.hpp>
 #include <dict.hpp>
+#include <string>
 #include <stdio.h>
 
 void op_test() { }
@@ -30,7 +31,7 @@ int main(int arc, char **argv)
 
         {
                 Test t = Test("Read/Write");
-                const char* filename = "test.txt";
+                std::string filename = "test.txt";
                 Dict d1(m);
                 write(filename, d1);
                 Dict d2 = read(filename);
@@ -44,7 +45,7 @@ int main(int arc, char **argv)
                 test(t, i1 == i2);
                 test(t, f1 == f2);
                 test(t, g1 == g2);
-                remove(filename);
+                remove(filename.c_str());
         }
 
         return test_status();

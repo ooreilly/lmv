@@ -4,12 +4,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
+#include <string>
 
 
 
 static const int LMV_STATUS_SUCCESS = 0;
 static const int LMV_MALLOC_FAILURE = 100;
 static const int LMV_PARSE_FAILURE = 101;
+static const int LMV_WRITE_FAILURE = 102;
 
 inline const char *lmvGetErrorString(int stat)
 {
@@ -51,7 +54,7 @@ class Dict;
 class read
 {
 public:
- read(const char *filename_, bool verbose_ = false)
+ read(const std::string& filename_, bool verbose_ = false)
  {
         filename = filename_;
         verbose = verbose_;
@@ -65,7 +68,7 @@ operator hCSR<Tv, Ti>();
 operator Dict();
 
 private:
-        const char *filename;
+        std::string filename;
         bool verbose;
 };
 
