@@ -7,6 +7,7 @@ set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+include_directories(${CUDA_HOME})
 if (DEFINED ENV{ARCH})
         set(ARCH $ENV{ARCH})
 else()

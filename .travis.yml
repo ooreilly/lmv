@@ -48,4 +48,4 @@ before_script:
     - cmake ..
 
 
-script: ninja
+script: make
