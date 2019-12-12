@@ -15,10 +15,11 @@ endif()
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xptxas=-v -lineinfo -use_fast_math")
 
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS}")
+set(LMV_INCLUDE_DIR ${LMV_SOURCE_DIR}/include)
 
 include(CTest)
 enable_testing()
 
-add_subdirectory(src)
+add_subdirectory(include)
 add_subdirectory(tests)
 
